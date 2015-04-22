@@ -12,9 +12,10 @@ namespace easyTUI {
                     const WinType winType = WIN, Window* pWParent = nullptr);
             virtual void show();
         protected:
-            inline WINDOW* getRawWinPtr() { return _win; };
         private:
-            WINDOW* _win = nullptr;
+            Window *_pWinParent = nullptr;
+            unsigned _x = 0, _y = 0, _height = 0, _width = 0;
+            WinType _type = WIN;
     };
 }
 #endif
