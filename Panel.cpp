@@ -9,15 +9,12 @@ namespace easyTUI {
 
     Panel::~Panel() {
         endwin();
-        if (_pPanel) {
-            delete _pPanel;
-        }
         _pPanel = nullptr;
     }
 
     Panel& Panel::getInstance() {
         if (!_pPanel) {
-            _pPanel = new Panel();
+            _pPanel = shared_ptr<Panel>(new Panel());
         }
         return *_pPanel;
     }
@@ -25,6 +22,7 @@ namespace easyTUI {
     void Panel::run() {
         initscr();
         addstr("hello");
+        WINDOW* w = newwin(5, 5, 5, 5);
         refresh();
         getch();
     }
