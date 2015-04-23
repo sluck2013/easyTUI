@@ -40,8 +40,8 @@ namespace easyTUI {
         getch();
     }
 
-    void Panel::addWindow(Window& window) {
-        __lstWindows.push_back(window);
+    void Panel::addWindow(Window* pWindow) {
+        __lstWindows.push_back(pWindow);
     }
 
     unsigned Panel::__makeColorKey(const Style::Color fgColor, const Style::Color bgColor) const {
@@ -49,5 +49,13 @@ namespace easyTUI {
         k &= (static_cast<unsigned>(fgColor) << 16);
         k &= static_cast<unsigned>(bgColor);
         return k;
+    }
+
+    int Panel::__getColorIndex(const Style::Color fgColor, const Style::Color bgColor) {
+        unsigned key = __makeColorKey(fgColor, bgColor);
+        if (__mapColorPairs.find(key) == __mapColorPairs.end()) {
+            __mapColorPairs[key] = __iMaxColorIndex++;
+        }
+        return __mapColorPairs[key];
     }
 }

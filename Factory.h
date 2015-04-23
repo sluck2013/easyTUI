@@ -7,7 +7,7 @@
 namespace easyTUI {
     class Factory {
         public:
-            virtual Window createWindow(
+            virtual Window* createWindow(
                     const unsigned x = 0, const unsigned y = 0,
                     const unsigned height = 0, const unsigned width = 0,  
                     Window::WinType winType = Window::WIN, Window* pWParent = nullptr);
