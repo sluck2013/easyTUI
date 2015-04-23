@@ -2,6 +2,10 @@
 #define PANEL_H
 
 #include <memory>
+#include <list>
+#include "Window.h"
+#include "Style.h"
+#include <unordered_map>
 
 using namespace std;
 
@@ -11,9 +15,16 @@ namespace easyTUI {
             ~Panel();
             static Panel& getInstance();
             void run();
+            void addWindow(Window& window);
         private:
             Panel();
-            static shared_ptr<Panel> _pPanel;
+            unsigned  __makeColorKey(const Style::Color fgColor, const Style::Color bgColor) const;
+            int __getColorIndex(const Style::Color fgColor, const Style::Color bgColor);
+
+            static shared_ptr<Panel> __pPanel;
+            list<Window> __lstWindows;
+            unordered_map<unsigned, int> __mapColorPairs;
+            int __iMaxColorIndex = 0;           
     };
 }
 

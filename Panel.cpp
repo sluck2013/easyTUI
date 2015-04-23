@@ -2,21 +2,21 @@
 #include <ncurses.h>
 
 namespace easyTUI {
-    shared_ptr<Panel> Panel::_pPanel = nullptr;
+    shared_ptr<Panel> Panel::__pPanel = nullptr;
 
     Panel::Panel() {
     }
 
     Panel::~Panel() {
         endwin();
-        _pPanel = nullptr;
+        __pPanel = nullptr;
     }
 
     Panel& Panel::getInstance() {
-        if (!_pPanel) {
-            _pPanel = shared_ptr<Panel>(new Panel());
+        if (!__pPanel) {
+            __pPanel = shared_ptr<Panel>(new Panel());
         }
-        return *_pPanel;
+        return *__pPanel;
     }
 
     void Panel::run() {
@@ -31,6 +31,23 @@ namespace easyTUI {
         wbkgd(w2, COLOR_PAIR(2));
         refresh();
         wrefresh(w);
+        wrefresh(w2);
         getch();
+        delwin(w);
+        touchwin(stdscr);
+        refresh();
+        
+        getch();
+    }
+
+    void Panel::addWindow(Window& window) {
+        __lstWindows.push_back(window);
+    }
+
+    unsigned Panel::__makeColorKey(const Style::Color fgColor, const Style::Color bgColor) const {
+        unsigned k = 0x00;
+        k &= (static_cast<unsigned>(fgColor) << 16);
+        k &= static_cast<unsigned>(bgColor);
+        return k;
     }
 }

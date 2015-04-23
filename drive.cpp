@@ -1,5 +1,5 @@
 #include "drive.h"
-#include "WindowFactory.h"
+#include "Factory.h"
 #include "Panel.h"
 
 using namespace easyTUI;

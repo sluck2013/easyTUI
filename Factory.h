@@ -11,7 +11,9 @@ namespace easyTUI {
                     const unsigned x = 0, const unsigned y = 0,
                     const unsigned height = 0, const unsigned width = 0,  
                     Window::WinType winType = Window::WIN, Window* pWParent = nullptr);
-            virtual void setStyle(Style& style) ;
+            virtual void setStyle(const Style& style); 
+        private:
+            Style _style;
     };
 }
 
