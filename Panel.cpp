@@ -3,8 +3,10 @@
 #include <thread>
 #include <chrono>
 
+using namespace std;
+
 namespace easyTUI {
-    void __draw__(Panel *panel) {
+    void __draw__(shared_ptr<Panel> panel) {
         if (!panel) {
             //exception
             return;
@@ -30,44 +32,56 @@ namespace easyTUI {
     }
 
     void Panel::draw() {
+        initscr();
         chrono::duration<double, milli> interval(__iRefreshItvl);
         while (true) {
-            addstr("thread work\n");
-            touchwin(stdscr);
+            erase();
             refresh();
+            auto it = __lstWindows.cbegin();
+            for (; it != __lstWindows.cend(); ++it) {
+                //lock
+                (*it)->draw();
+                //unlock
+            }
+            getch();
+
             if (__iRefreshItvl > 0) {
                 this_thread::sleep_for(interval);
+            } else if (__iRefreshItvl == 0) {
+                continue;
+            } else {
+                break;
             }
         }
     }
 
 
     void Panel::run() {
-        initscr();
-////
-        thread tDraw(__draw__, this);
+        ////
+        thread tDraw(__draw__, shared_ptr<Panel>(this));
         tDraw.join();
-///
-        
+        /*
+        initscr();
+        start_color();
+        WINDOW* a = newwin(10, 10, 10, 10);
+        WINDOW* b = newwin(15, 15, 15, 15);
+        init_pair(1, COLOR_GREEN, COLOR_WHITE);
+        init_pair(2, COLOR_YELLOW, COLOR_CYAN);
+        wbkgd(a, COLOR_PAIR(1));
+        wbkgd(b, COLOR_PAIR(2));
+        erase();
+        refresh();
+        werase(a);
+        wrefresh(a);
+        werase(b);
+        wrefresh(b);
         getch();
+        */
+        ///
     }
 
-    void Panel::addWindow(Window* pWindow) {
+    void Panel::addWindow(shared_ptr<Window> pWindow) {
         __lstWindows.push_back(pWindow);
     }
 
-    unsigned Panel::__makeColorKey(const Style::Color fgColor, const Style::Color bgColor) const {
-        unsigned k = 0x00;
-        k &= (static_cast<unsigned>(fgColor) << 16);
-        k &= static_cast<unsigned>(bgColor);
-        return k;
-    }
-
-    int Panel::__getColorIndex(const Style::Color fgColor, const Style::Color bgColor) {
-        unsigned key = __makeColorKey(fgColor, bgColor);
-        if (__mapColorPairs.find(key) == __mapColorPairs.end()) {
-            __mapColorPairs[key] = __iMaxColorIndex++;
-        }
-        return __mapColorPairs[key];
-    }
 }

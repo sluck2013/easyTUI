@@ -5,8 +5,8 @@ LIB=-lncurses -pthread
 
 all: test
 
-test: drive.cpp drive.h Window.o Factory.o Panel.o Style.o
-	$(GCC) $(STD) -o test drive.cpp Window.o Factory.o Panel.o Style.o $(LIB)
+test: drive.cpp drive.h Window.o Factory.o Panel.o Style.o ColorManager.o
+	$(GCC) $(STD) -o test drive.cpp Window.o Factory.o Panel.o Style.o ColorManager.o $(LIB)
 
 Window.o: Window.h Window.cpp Window.h Factory.h
 	$(GCC) $(STD) -c -o Window.o Window.cpp $(LIB) 
@@ -19,6 +19,9 @@ Panel.o: Panel.h Panel.cpp
 
 Style.o: Style.h Style.cpp
 	$(GCC) $(STD) -c -o Style.o Style.cpp $(LIB)
+
+ColorManager.o: ColorManager.h ColorManager.cpp
+	$(GCC) $(STD) -c -o ColorManager.o ColorManager.cpp $(LIB)
 
 clean:
 	@rm *.o test
