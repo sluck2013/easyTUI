@@ -16,15 +16,21 @@ namespace easyTUI {
             static Panel& getInstance();
             void run();
             void addWindow(Window *pWindow);
+            inline void setRefreshInterval(const int itvl) {
+                __iRefreshItvl = itvl;
+            }
+            void draw();
         private:
             Panel();
             unsigned  __makeColorKey(const Style::Color fgColor, const Style::Color bgColor) const;
             int __getColorIndex(const Style::Color fgColor, const Style::Color bgColor);
+//            void __draw();
 
             static shared_ptr<Panel> __pPanel;
             list<Window*> __lstWindows;
             unordered_map<unsigned, int> __mapColorPairs;
-            int __iMaxColorIndex = 0;           
+            int __iMaxColorIndex = 0;
+            int __iRefreshItvl = 0;
     };
 }
 

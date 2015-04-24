@@ -1,7 +1,7 @@
 GCC=g++
 OPTM=-o2
 STD=-std=c++11
-LIB=-lncurses
+LIB=-lncurses -pthread
 
 all: test
 

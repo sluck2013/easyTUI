@@ -1,7 +1,17 @@
 #include "Panel.h"
 #include <ncurses.h>
+#include <thread>
+#include <chrono>
 
 namespace easyTUI {
+    void __draw__(Panel *panel) {
+        if (!panel) {
+            //exception
+            return;
+        }
+        panel->draw();
+    }
+
     shared_ptr<Panel> Panel::__pPanel = nullptr;
 
     Panel::Panel() {
@@ -19,23 +29,25 @@ namespace easyTUI {
         return *__pPanel;
     }
 
+    void Panel::draw() {
+        chrono::duration<double, milli> interval(__iRefreshItvl);
+        while (true) {
+            addstr("thread work\n");
+            touchwin(stdscr);
+            refresh();
+            if (__iRefreshItvl > 0) {
+                this_thread::sleep_for(interval);
+            }
+        }
+    }
+
+
     void Panel::run() {
         initscr();
-        addstr("hello");
-        WINDOW* w = newwin(5, 5, 5, 5);
-        start_color();
-        init_pair(1, COLOR_WHITE, COLOR_BLUE);
-        init_pair(2, COLOR_WHITE, COLOR_GREEN);
-        WINDOW* w2 = newwin(10, 10, 10, 10);
-        wbkgd(w, COLOR_PAIR(1));
-        wbkgd(w2, COLOR_PAIR(2));
-        refresh();
-        wrefresh(w);
-        wrefresh(w2);
-        getch();
-        delwin(w);
-        touchwin(stdscr);
-        refresh();
+////
+        thread tDraw(__draw__, this);
+        tDraw.join();
+///
         
         getch();
     }
