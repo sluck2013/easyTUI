@@ -6,7 +6,7 @@
 using namespace std;
 
 namespace easyTUI {
-    void __draw__(shared_ptr<Panel> panel) {
+    void c_draw(shared_ptr<Panel> panel) {
         if (!panel) {
             //exception
             return;
@@ -14,40 +14,40 @@ namespace easyTUI {
         panel->draw();
     }
 
-    shared_ptr<Panel> Panel::__pPanel = nullptr;
+    shared_ptr<Panel> Panel::pPanel_ = nullptr;
 
     Panel::Panel() {
     }
 
     Panel::~Panel() {
         endwin();
-        __pPanel = nullptr;
+        pPanel_ = nullptr;
     }
 
     Panel& Panel::getInstance() {
-        if (!__pPanel) {
-            __pPanel = shared_ptr<Panel>(new Panel());
+        if (!pPanel_) {
+            pPanel_ = shared_ptr<Panel>(new Panel());
         }
-        return *__pPanel;
+        return *pPanel_;
     }
 
     void Panel::draw() {
         initscr();
-        chrono::duration<double, milli> interval(__iRefreshItvl);
+        chrono::duration<double, milli> interval(iRefreshItvl_);
         while (true) {
             erase();
             refresh();
-            auto it = __lstWindows.cbegin();
-            for (; it != __lstWindows.cend(); ++it) {
+            auto it = lstWindows_.cbegin();
+            for (; it != lstWindows_.cend(); ++it) {
                 //lock
                 (*it)->draw();
                 //unlock
             }
             getch();
 
-            if (__iRefreshItvl > 0) {
+            if (iRefreshItvl_ > 0) {
                 this_thread::sleep_for(interval);
-            } else if (__iRefreshItvl == 0) {
+            } else if (iRefreshItvl_ == 0) {
                 continue;
             } else {
                 break;
@@ -58,7 +58,7 @@ namespace easyTUI {
 
     void Panel::run() {
         ////
-        thread tDraw(__draw__, shared_ptr<Panel>(this));
+        thread tDraw(c_draw, shared_ptr<Panel>(this));
         tDraw.join();
         /*
         initscr();
@@ -81,7 +81,7 @@ namespace easyTUI {
     }
 
     void Panel::addWindow(shared_ptr<Window> pWindow) {
-        __lstWindows.push_back(pWindow);
+        lstWindows_.push_back(pWindow);
     }
 
 }

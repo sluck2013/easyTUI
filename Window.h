@@ -12,21 +12,19 @@ namespace easyTUI {
                     const unsigned height = 0, const unsigned width = 0,
                     const WinType winType = WIN, shared_ptr<Window> pWParent = nullptr);
             inline void setBackgroundColor(const ColorManager::Color color) {
-                _bgColor = color;
+                bgColor_ = color;
             };
             virtual void setForegroundColor(const ColorManager::Color color) {
-                _fgColor = color;
+                fgColor_ = color;
             };
             virtual void draw();
 
-        protected:
-            shared_ptr<Window> _pWinParent = nullptr;
-            unsigned _x = 0, _y = 0, _height = 0, _width = 0;
-            ColorManager::Color _bgColor, _fgColor;
-            
         private:
-            WinType __type = WIN;
-            WINDOW* __rawWin = nullptr;
+            shared_ptr<Window> pWinParent_ = nullptr;
+            unsigned x_ = 0, y_ = 0, height_ = 0, width_ = 0;
+            ColorManager::Color bgColor_, fgColor_;
+            WinType type_ = WIN;
+            WINDOW* rawWin_ = nullptr;
     };
 }
 #endif

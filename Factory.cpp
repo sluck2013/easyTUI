@@ -6,12 +6,12 @@ namespace easyTUI {
             shared_ptr<Window> pWParent) {
         auto pWin = shared_ptr<Window> (
                 new Window(x, y, height, width, winType, pWParent));
-        pWin->setBackgroundColor(_style.getBackgroundColor());
-        pWin->setForegroundColor(_style.getForegroundColor());
+        pWin->setBackgroundColor(style_.getBackgroundColor());
+        pWin->setForegroundColor(style_.getForegroundColor());
         return pWin;
     }
 
     void Factory::setStyle(const Style& style) {
-        _style = style;
+        style_ = style;
     }
 }

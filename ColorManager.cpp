@@ -3,16 +3,16 @@
 using namespace std;
 
 namespace easyTUI {
-    shared_ptr<ColorManager> ColorManager::__this = nullptr;
+    shared_ptr<ColorManager> ColorManager::this_ = nullptr;
 
     ColorManager& ColorManager::getInstance() {
-        if (!__this) {
-            __this = shared_ptr<ColorManager>(new ColorManager());
+        if (!this_) {
+            this_ = shared_ptr<ColorManager>(new ColorManager());
         }
-        return *__this;
+        return *this_;
     }
     
-    int ColorManager::__makeColorKey(const Color fgColor, const Color bgColor) const {
+    int ColorManager::makeColorKey_(const Color fgColor, const Color bgColor) const {
         int k = 0x00000000;
         k |= (static_cast<int>(fgColor) << 4);
         k |= static_cast<int>(bgColor);
@@ -20,16 +20,16 @@ namespace easyTUI {
     }
 
     int ColorManager::getColorIndex(const Color fgColor, const Color bgColor) {
-        int key = __makeColorKey(fgColor, bgColor);
-        if (__mapColorPairs.find(key) == __mapColorPairs.end()) {
-            __mapColorPairs[key] = __iMaxColorIndex;
-            init_pair(__iMaxColorIndex++, fgColor, bgColor);
+        int key = makeColorKey_(fgColor, bgColor);
+        if (mapColorPairs_.find(key) == mapColorPairs_.end()) {
+            mapColorPairs_[key] = iMaxColorIndex_;
+            init_pair(iMaxColorIndex_++, fgColor, bgColor);
         }
-        return __mapColorPairs[key];
+        return mapColorPairs_[key];
     }
 
     ColorManager::ColorManager() {
-        if (__bHasColor = has_colors()) {
+        if (bHasColor_ = has_colors()) {
             start_color();
         }
     }

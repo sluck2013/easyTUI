@@ -8,21 +8,21 @@ namespace easyTUI {
         public:
             Style(ColorManager::Color bgColor = ColorManager::BLACK, 
                     ColorManager::Color fgColor = ColorManager::WHITE) :
-                _bgColor(bgColor), _fgColor(fgColor) {};
+                bgColor_(bgColor), fgColor_(fgColor) {};
             inline void setBackgroundColor(const ColorManager::Color color) {
-                _bgColor = color;
+                bgColor_ = color;
             };
             inline void setForegroundColor(const ColorManager::Color color) {
-                _fgColor = color;
+                fgColor_ = color;
             };
             inline ColorManager::Color getBackgroundColor() {
-                return _bgColor;
+                return bgColor_;
             }
             inline ColorManager::Color getForegroundColor() {
-                return _fgColor;
+                return fgColor_;
             }
-        protected:
-            ColorManager::Color _bgColor, _fgColor;
+        private:
+            ColorManager::Color bgColor_, fgColor_;
     };
 }
 

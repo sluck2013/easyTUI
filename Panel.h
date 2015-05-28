@@ -13,15 +13,15 @@ namespace easyTUI {
             void run();
             void addWindow(shared_ptr<Window> pWindow);
             inline void setRefreshInterval(const int itvl) {
-                __iRefreshItvl = itvl;
+                iRefreshItvl_ = itvl;
             }
             void draw();
         private:
             Panel();
 
-            static shared_ptr<Panel> __pPanel;
-            list<shared_ptr<Window>> __lstWindows;
-            int __iRefreshItvl = 0;
+            static shared_ptr<Panel> pPanel_;
+            list<shared_ptr<Window>> lstWindows_;
+            int iRefreshItvl_ = 0;
     };
 }
 

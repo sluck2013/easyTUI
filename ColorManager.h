@@ -18,13 +18,13 @@ namespace easyTUI {
             int getColorIndex(const Color fgColor, const Color bgColor);
             ~ColorManager();
         private:
-            unordered_map<int, int> __mapColorPairs;
-            int __iMaxColorIndex = 1;
-            static shared_ptr<ColorManager> __this;
-            bool __bHasColor = false;
+            unordered_map<int, int> mapColorPairs_;
+            int iMaxColorIndex_ = 1;
+            static shared_ptr<ColorManager> this_;
+            bool bHasColor_ = false;
 
             ColorManager();
-            int  __makeColorKey(const Color fgColor, const Color bgColor) const;
+            int  makeColorKey_(const Color fgColor, const Color bgColor) const;
     };
 }
 

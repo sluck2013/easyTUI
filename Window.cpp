@@ -6,19 +6,19 @@ namespace easyTUI {
     Window::Window (const unsigned x, const unsigned y, 
             const unsigned height, const unsigned width,
             const WinType winType, shared_ptr<Window> pWParent) : 
-        _x(x), _y(y), _height(height), _width(width),
-        __type(winType), _bgColor(ColorManager::BLACK), 
-        _fgColor(ColorManager::WHITE) {
+        x_(x), y_(y), height_(height), width_(width),
+        type_(winType), bgColor_(ColorManager::BLACK), 
+        fgColor_(ColorManager::WHITE) {
             switch(winType) {
                 case WIN:
-                    _pWinParent = nullptr;
+                    pWinParent_ = nullptr;
                     break;
                 case SUBWIN:
                 case DERWIN:
                     if (!pWParent) {
                         //exception
                     } else {
-                        _pWinParent = pWParent;
+                        pWinParent_ = pWParent;
                     }
                 default:
                     ;
@@ -26,15 +26,15 @@ namespace easyTUI {
         }
 
     void Window::draw() {
-        if (!__rawWin) {
-            __rawWin = newwin(_height, _width, _y, _x);
+        if (!rawWin_) {
+            rawWin_ = newwin(height_, width_, y_, x_);
         }
-        werase(__rawWin);
+        werase(rawWin_);
         ColorManager &cm = ColorManager::getInstance();
-        stringstream ss;
-        ss << cm.getColorIndex(_fgColor, _bgColor) << "(" << _fgColor <<  _bgColor <<")";
-        wbkgd(__rawWin, COLOR_PAIR(cm.getColorIndex(_fgColor, _bgColor)));
-        waddstr(__rawWin, ss.str().c_str());
-        wrefresh(__rawWin);
+        //stringstream ss;
+        //ss << cm.getColorIndex(fgColor_, bgColor_) << "(" << fgColor_ <<  bgColor_ <<")";
+        wbkgd(rawWin_, COLOR_PAIR(cm.getColorIndex(fgColor_, bgColor_)));
+        //waddstr(rawWin_, ss.str().c_str());
+        wrefresh(rawWin_);
     }
 }

@@ -15,7 +15,7 @@ namespace easyTUI {
                     shared_ptr<Window> pWParent = nullptr);
             virtual void setStyle(const Style& style); 
         private:
-            Style _style;
+            Style style_;
     };
 }
 
