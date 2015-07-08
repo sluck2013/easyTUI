@@ -3,12 +3,9 @@
 #include <sstream>
 
 namespace easyTUI {
-    Window::Window (const unsigned x, const unsigned y, 
-            const unsigned height, const unsigned width,
-            const WinType winType, shared_ptr<Window> pWParent) : 
-        x_(x), y_(y), height_(height), width_(width),
-        type_(winType), bgColor_(ColorManager::BLACK), 
-        fgColor_(ColorManager::WHITE) {
+    Window::Window (const unsigned x, const unsigned y, const unsigned height, const unsigned width,
+            const WinType winType, shared_ptr<Window> pWParent) : x_(x), y_(y), height_(height), width_(width),
+        type_(winType), bgColor_(ColorManager::BLACK), fgColor_(ColorManager::WHITE) {
             switch(winType) {
                 case WIN:
                     pWinParent_ = nullptr;

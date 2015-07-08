@@ -14,40 +14,39 @@ namespace easyTUI {
         panel->draw();
     }
 
-    shared_ptr<Panel> Panel::pPanel_ = nullptr;
+    shared_ptr<Panel> Panel::panelPtr_ = nullptr;
 
     Panel::Panel() {
     }
 
     Panel::~Panel() {
         endwin();
-        pPanel_ = nullptr;
+        panelPtr_ = nullptr;
     }
 
     Panel& Panel::getInstance() {
-        if (!pPanel_) {
-            pPanel_ = shared_ptr<Panel>(new Panel());
+        if (!panelPtr_) {
+            panelPtr_ = shared_ptr<Panel>(new Panel());
         }
-        return *pPanel_;
+        return *panelPtr_;
     }
 
     void Panel::draw() {
-        initscr();
-        chrono::duration<double, milli> interval(iRefreshItvl_);
+        chrono::duration<double, milli> interval(refreshInterval_);
         while (true) {
             erase();
             refresh();
-            auto it = lstWindows_.cbegin();
-            for (; it != lstWindows_.cend(); ++it) {
+            auto it = windowList_.cbegin();
+            for (; it != windowList_.cend(); ++it) {
                 //lock
                 (*it)->draw();
                 //unlock
             }
             getch();
 
-            if (iRefreshItvl_ > 0) {
+            if (refreshInterval_ > 0) {
                 this_thread::sleep_for(interval);
-            } else if (iRefreshItvl_ == 0) {
+            } else if (refreshInterval_ == 0) {
                 continue;
             } else {
                 break;
@@ -58,6 +57,12 @@ namespace easyTUI {
 
     void Panel::run() {
         ////
+        initscr(); 
+
+        ColorManager &cm = ColorManager::getInstance();
+        int colorIndex = cm.getColorIndex(style_.getForegroundColor(), style_.getBackgroundColor());
+        bkgd(COLOR_PAIR(colorIndex));
+
         thread tDraw(c_draw, shared_ptr<Panel>(this));
         tDraw.join();
         /*
@@ -81,7 +86,7 @@ namespace easyTUI {
     }
 
     void Panel::addWindow(shared_ptr<Window> pWindow) {
-        lstWindows_.push_back(pWindow);
+        windowList_.push_back(pWindow);
     }
 
 }

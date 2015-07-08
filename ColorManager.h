@@ -19,9 +19,9 @@ namespace easyTUI {
             ~ColorManager();
         private:
             unordered_map<int, int> mapColorPairs_;
-            int iMaxColorIndex_ = 1;
+            int maxColorIndex_ = 1;
             static shared_ptr<ColorManager> this_;
-            bool bHasColor_ = false;
+            bool hasColor_ = false;
 
             ColorManager();
             int  makeColorKey_(const Color fgColor, const Color bgColor) const;

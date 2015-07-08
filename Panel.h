@@ -4,6 +4,7 @@
 #include <memory>
 #include <list>
 #include "Window.h"
+#include "Style.h"
 
 namespace easyTUI {
     class Panel {
@@ -12,16 +13,20 @@ namespace easyTUI {
             static Panel& getInstance();
             void run();
             void addWindow(shared_ptr<Window> pWindow);
-            inline void setRefreshInterval(const int itvl) {
-                iRefreshItvl_ = itvl;
+            inline void setRefreshInterval(const int interval) {
+                refreshInterval_ = interval;
+            }
+            inline void setStyle(const Style& style) {
+                style_ = style;
             }
             void draw();
         private:
             Panel();
 
-            static shared_ptr<Panel> pPanel_;
-            list<shared_ptr<Window>> lstWindows_;
-            int iRefreshItvl_ = 0;
+            static shared_ptr<Panel> panelPtr_;
+            list<shared_ptr<Window>> windowList_;
+            int refreshInterval_ = 0;
+            Style style_;
     };
 }
 

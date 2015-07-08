@@ -22,14 +22,14 @@ namespace easyTUI {
     int ColorManager::getColorIndex(const Color fgColor, const Color bgColor) {
         int key = makeColorKey_(fgColor, bgColor);
         if (mapColorPairs_.find(key) == mapColorPairs_.end()) {
-            mapColorPairs_[key] = iMaxColorIndex_;
-            init_pair(iMaxColorIndex_++, fgColor, bgColor);
+            mapColorPairs_[key] = maxColorIndex_;
+            init_pair(maxColorIndex_++, fgColor, bgColor);
         }
         return mapColorPairs_[key];
     }
 
     ColorManager::ColorManager() {
-        if (bHasColor_ = has_colors()) {
+        if (hasColor_ = has_colors()) {
             start_color();
         }
     }
@@ -38,4 +38,4 @@ namespace easyTUI {
     }
 }
 
-//TODO::check _bHasColor
+//TODO::check _hasColor
