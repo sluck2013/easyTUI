@@ -3,10 +3,7 @@ OPTM=-o2
 STD=-std=c++11
 LIB=-lncurses -pthread
 
-all: test
-
-test: drive.cpp drive.h Window.o Factory.o Panel.o Style.o ColorManager.o
-	$(GCC) $(STD) -o test drive.cpp Window.o Factory.o Panel.o Style.o ColorManager.o $(LIB)
+all: Window.o Factory.o Panel.o Style.o ColorManager.o
 
 Window.o: Window.h Window.cpp Window.h Factory.h
 	$(GCC) $(STD) -c -o Window.o Window.cpp $(LIB) 
