@@ -1,4 +1,4 @@
-#include "Factory.h"
+#include "WindowFactory.h"
 #include "Panel.h"
 #include "Style.h"
 #include "ColorManager.h"
@@ -21,7 +21,7 @@ int main() {
         ColorManager::MAGENTA
     };
     Style s;
-    Factory f;
+    WindowFactory f;
     for (int i = 0; i < 5; ++i) {
         for (int j = 0; j < 4; ++j) {
             s.setBackgroundColor(colors[(i + j) % 8]);

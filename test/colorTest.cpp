@@ -1,5 +1,4 @@
-#include "colorTest.h"
-#include "Factory.h"
+#include "WindowFactory.h"
 #include "Panel.h"
 #include "Style.h"
 #include "ColorManager.h"
@@ -12,7 +11,7 @@ int main() {
     p.setRefreshInterval(200);
 
     Style s(ColorManager::YELLOW);
-    Factory f;
+    WindowFactory f;
     f.setStyle(s);
     p.addWindow(f.createWindow(10, 10, 10, 10));
     s.setBackgroundColor(ColorManager::CYAN);

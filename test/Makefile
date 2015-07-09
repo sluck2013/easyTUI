@@ -5,15 +5,18 @@ LIB=-lncurses -pthread
 HEADER_DIR=..
 OBJECTS=$(wildcard ../*.o)
 
-all: colorTest multipleWindows panelStyle
+all: colorTest multipleWindows panelStyle labelWithoutSize
 
-colorTest: colorTest.cpp colorTest.h $(OBJECTS)
+colorTest: colorTest.cpp $(OBJECTS)
 	$(GCC) $(STD) -o $@ $^ -I $(HEADER_DIR) $(LIB)
 
 multipleWindows: multipleWindows.cpp $(OBJECTS)
 	$(GCC) $(STD) -o $@ $^ -I $(HEADER_DIR) $(LIB)
 
 panelStyle: panelStyle.cpp $(OBJECTS)
+	$(GCC) $(STD) -o $@ $^ -I $(HEADER_DIR) $(LIB)
+
+labelWithoutSize: labelWithoutSize.cpp $(OBJECTS)
 	$(GCC) $(STD) -o $@ $^ -I $(HEADER_DIR) $(LIB)
 
 clean:

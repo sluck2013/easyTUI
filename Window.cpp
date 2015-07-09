@@ -32,6 +32,13 @@ namespace easyTUI {
         //ss << cm.getColorIndex(fgColor_, bgColor_) << "(" << fgColor_ <<  bgColor_ <<")";
         wbkgd(rawWin_, COLOR_PAIR(cm.getColorIndex(fgColor_, bgColor_)));
         //waddstr(rawWin_, ss.str().c_str());
+        for (auto &label : labelList_) {
+            label.draw(*this);
+        }
         wrefresh(rawWin_);
+    }
+
+    void Window::addLabel(const Label& label) {
+        labelList_.push_back(label);
     }
 }

@@ -3,8 +3,14 @@
 
 #include <ncurses.h>
 #include "ColorManager.h"
+#include "Label.h"
+#include <list>
+
+using namespace std;
 
 namespace easyTUI {
+    class Label;
+
     class Window {
         public:
             enum WinType {WIN, SUBWIN, DERWIN};
@@ -18,6 +24,10 @@ namespace easyTUI {
                 fgColor_ = color;
             };
             virtual void draw();
+            void addLabel(const Label& label);
+            inline WINDOW* getRawWindowPtr() {
+                return rawWin_;
+            }
 
         private:
             shared_ptr<Window> pWinParent_ = nullptr;
@@ -25,6 +35,7 @@ namespace easyTUI {
             ColorManager::Color bgColor_, fgColor_;
             WinType type_ = WIN;
             WINDOW* rawWin_ = nullptr;
+            list<Label> labelList_;
     };
 }
 #endif
